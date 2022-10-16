@@ -28,10 +28,13 @@ pub async fn try_login(password: String) -> Result<(), TryLoginError> {
         .await
     {
         Ok(response) => {
-            if response.status() == 200 {
-                Ok(())
-            } else {
-                Err(TryLoginError::IncorrectPassword)
+            match response.status() {
+                200 => Ok(()),
+                401 => Err(TryLoginError::IncorrectPassword),
+                _ => {
+                    gloo::console::error!(format!("Unexpected status code: {}", response.status()));
+                    Err(TryLoginError::InternalError)
+                }
             }
         }
         Err(e) => {
