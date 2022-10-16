@@ -6,8 +6,8 @@ use rocket_seek_stream::SeekStream;
 
 #[derive(FromForm)]
 pub struct FileUploadForm<'r> {
-    file_name: String,
     file: TempFile<'r>,
+    file_name: String,
 }
 
 #[post("/upload", data = "<data>")]
@@ -16,7 +16,7 @@ pub async fn upload_file(
     pool: &State<ManagedPool>,
     _admin_guard: crate::auth::AdminUser,
 ) -> JsonResponse {
-    data.file_name = data
+    let user_file_name = data
         .file_name
         .replace("..", "")
         .replace("/", "")
@@ -34,7 +34,7 @@ pub async fn upload_file(
             "{}/{}_{}",
             crate::util::UPLOAD_PATH.as_str(),
             secret,
-            data.file_name
+            user_file_name
         );
         if let Some(_) = std::fs::File::open(&file_name).ok() {
             continue;
@@ -42,10 +42,10 @@ pub async fn upload_file(
             break;
         }
     }
-    match data.file.persist_to(&file_name).await {
+    match data.file.copy_to(&file_name).await {
         Ok(_) => (),
         Err(e) => {
-            warn!("Failed to upload file with error: {}", e);
+            warn!("Failed to move uploaded file with error: {}", e);
             return make_json_response!(500, "Internal Server Error");
         }
     }
@@ -67,7 +67,7 @@ pub async fn upload_file(
     match diesel::insert_into(crate::schema::file_uploads::table)
         .values(crate::model::FileUploadNoID {
             secret,
-            name: data.file_name.clone(),
+            name: user_file_name,
             created_at: chrono::Utc::now().naive_utc(),
             updated_at: chrono::Utc::now().naive_utc(),
             deleted_at: None,
