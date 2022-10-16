@@ -10,9 +10,8 @@ forms = \"64 kB\"
 json = \"1 MiB\"
 msgpack = \"100 MiB\"
 \"file/jpg\" = \"100 MiB\"
-file = \"100 MiB\
-data-form=\"100 MiB\"
-" > /app/Rocket.toml
+file = \"100 MiB\"
+data-form=\"100 MiB\"" > /app/Rocket.toml
 fi
 
 # Run service
