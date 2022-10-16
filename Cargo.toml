@@ -6,3 +6,18 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+serde = { version = "1.0.132", features = ["derive"] }
+serde_json = "1.0"
+rocket_seek_stream = {git = "https://github.com/StappsWorld/rocket_seek_stream.git"}
+dotenv = "0.15.0"
+rand = "0.8.4"
+lazy_static = "1.4.0"
+diesel = { version = "1.4.8", features = ["postgres", "chrono", "r2d2"] }
+diesel_migrations = "1.4.0"
+chrono = {version = "0.4.19", features = ["serde"]}
+openssl = "0.10.38"
+openssl-probe = "0.1.5"
+
+[dependencies.rocket]
+version = "0.5.0-rc.2"
+features = ["json", "msgpack", "uuid", "secrets"]
