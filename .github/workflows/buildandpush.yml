@@ -51,7 +51,7 @@ jobs:
           cache-to: type=gha,mode=max
           platforms: linux/amd64
           secrets: |
-            GIT_AUTH_TOKEN=${{ secrets.PAT }}
+            GIT_AUTH_TOKEN=${{ secrets.GITHUB_TOKEN }}
   build-frontend:
     name: Build Frontend Docker Image
     needs: []
@@ -97,4 +97,4 @@ jobs:
           cache-to: type=gha,mode=max
           platforms: linux/amd64
           secrets: |
-            GIT_AUTH_TOKEN=${{ secrets.PAT }}
+            GIT_AUTH_TOKEN=${{ secrets.GITHUB_TOKEN }}
