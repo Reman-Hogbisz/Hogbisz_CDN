@@ -1,14 +1,17 @@
 use super::model::FileUploadData;
 use super::util::FileUploadError;
+use crate::route::Route;
 use wasm_bindgen::JsCast;
 use web_sys::{DragEvent, Event, File, HtmlInputElement};
 use yew::prelude::*;
+use yew_router::prelude::*;
 
 pub enum MainMsg {
     UploadFile,
     UploadFileResult(Result<FileUploadData, FileUploadError>),
     ForceUpdate,
     SetFile(File),
+    ReturnToLogin,
 }
 
 pub struct Main {
@@ -90,12 +93,21 @@ impl Component for Main {
                                 "Failed to parse response.".to_string()
                             }
                             FileUploadError::ResponseError(message) => message,
+                            FileUploadError::AuthError => "Not logged in".to_string(),
                         };
                         self.error_string = Some(error_string);
                         self.internal_error = true;
                         true
                     }
                 }
+            }
+            MainMsg::ReturnToLogin => {
+                let history = match ctx.link().history() {
+                    Some(history) => history,
+                    None => return false,
+                };
+                history.push(Route::Login);
+                true
             }
         }
     }

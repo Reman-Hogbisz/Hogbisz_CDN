@@ -7,6 +7,7 @@ pub enum FileUploadError {
     InternalError,
     DeserializeError,
     ResponseError(String),
+    AuthError,
 }
 
 pub async fn upload_file(file: File) -> Result<FileUploadData, FileUploadError> {
@@ -42,22 +43,29 @@ pub async fn upload_file(file: File) -> Result<FileUploadData, FileUploadError> 
         .await;
 
     match initial_result {
-        Ok(response) => match response.json::<ServerResponse<FileUploadData>>().await {
-            Ok(json) => match json.status {
-                200 => Ok(json.data.unwrap()),
-                _ => Err(FileUploadError::ResponseError(json.message)),
+        Ok(response) => match response.status() {
+            200 => match response.json::<ServerResponse<FileUploadData>>().await {
+                Ok(json) => Ok(json.data.unwrap()),
+                Err(e) => {
+                    gloo::console::error!(format!(
+                        "Failed to deserialize response with error \"{:?}\"",
+                        e
+                    ));
+                    Err(FileUploadError::DeserializeError)
+                }
             },
-            Err(e) => {
+            401 => Err(FileUploadError::AuthError),
+            _ => {
                 gloo::console::error!(format!(
-                    "Failed to deserialize response with error \"{:?}\"",
-                    e
+                    "Failed to upload file with status code \"{}\"",
+                    response.status()
                 ));
-                return Err(FileUploadError::DeserializeError);
+                Err(FileUploadError::InternalError)
             }
         },
         Err(e) => {
             gloo::console::error!(format!("Failed to send request with error \"{:?}\"", e));
-            return Err(FileUploadError::InternalError);
+            Err(FileUploadError::InternalError)
         }
     }
 }
