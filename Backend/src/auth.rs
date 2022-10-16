@@ -66,6 +66,7 @@ impl<'r> FromRequest<'r> for AdminUser {
             Ok(s) => s,
             Err(e) => {
                 warn!("Failed to get session with error: {}", e);
+                cookies.remove_private(Cookie::named("session_id"));
                 if e == diesel::NotFound {
                     return Outcome::Failure((
                         Status::Unauthorized,
@@ -80,6 +81,7 @@ impl<'r> FromRequest<'r> for AdminUser {
         };
 
         if session.expires_at < chrono::Utc::now().naive_utc() {
+            cookies.remove_private(Cookie::named("session_id"));
             Outcome::Failure((Status::Unauthorized, AdminError::ExpiredSession))
         } else {
             Outcome::Success(AdminUser)
