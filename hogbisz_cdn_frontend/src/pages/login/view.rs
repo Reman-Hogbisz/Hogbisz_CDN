@@ -1,5 +1,4 @@
 use crate::route::Route;
-use std::sync::{atomic::AtomicBool, atomic::Ordering::Relaxed, Arc, Mutex};
 use web_sys::HtmlInputElement;
 use yew::prelude::*;
 use yew_router::prelude::*;

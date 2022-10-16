@@ -1,4 +1,3 @@
-use gloo::timers::callback::Interval;
 use yew::prelude::*;
 
 pub struct Main;
