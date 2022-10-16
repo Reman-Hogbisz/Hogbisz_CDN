@@ -105,7 +105,7 @@ impl Component for Login {
                         <input ref={self.password_field.clone()} class="m-1" type="password" />
                     </div>
                     <button onclick={try_login}
-                        class="px-4 py-2 rounded-md bg-allow-200 hover:bg-allow-400 dark:bg-allow-400 dark:hover:bg-allow-600 hover:active:bg-allow-800"
+                        class="px-4 py-2 bg-green-200 rounded-md hover:bg-green-400 dark:bg-green-400 dark:hover:bg-green-600 hover:active:bg-green-800"
                     >
                         { "Submit" }
                     </button>
