@@ -93,7 +93,10 @@ impl Component for Main {
                                 "Failed to parse response.".to_string()
                             }
                             FileUploadError::ResponseError(message) => message,
-                            FileUploadError::AuthError => "Not logged in".to_string(),
+                            FileUploadError::AuthError => {
+                                ctx.link().send_message(MainMsg::ReturnToLogin);
+                                "Not logged in".to_string()
+                            },
                         };
                         self.error_string = Some(error_string);
                         self.internal_error = true;
