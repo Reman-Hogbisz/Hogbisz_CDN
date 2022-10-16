@@ -43,7 +43,7 @@ jobs:
       - name: Docker Build and Push Backend to GHCR
         uses: docker/build-push-action@v2
         with:
-          context: "{{defaultContext}}:backend"
+          context: "{{defaultContext}}:Backend"
           push: true
           tags: ${{ steps.docker_backend_meta.outputs.tags }}
           labels: ${{ steps.docker_backend_meta.outputs.labels }}
@@ -89,7 +89,7 @@ jobs:
       - name: Docker Build and Push Frontend to GHCR
         uses: docker/build-push-action@v2
         with:
-          context: "{{defaultContext}}:frontend"
+          context: "{{defaultContext}}:Frontend"
           push: true
           tags: ${{ steps.docker_frontend_meta.outputs.tags }}
           labels: ${{ steps.docker_frontend_meta.outputs.labels }}
