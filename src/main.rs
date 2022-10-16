@@ -46,6 +46,19 @@ async fn main() {
     println!("Initializing database connection pool");
     let pool = Arc::new(db_connection::init_pool().expect("Failed to initialize DB pool"));
 
+    let save_path = crate::util::UPLOAD_PATH.as_str();
+
+    if !std::path::Path::new(save_path).exists() {
+        println!("Creating upload directory");
+        match std::fs::create_dir_all(save_path) {
+            Ok(_) => (),
+            Err(e) => {
+                eprintln!("Failed to create upload directory: {}", e);
+                std::process::exit(1);
+            }
+        }
+    }
+
     println!("Starting rocket backend");
     match rocket::build()
         .manage(ManagedPool(pool))
