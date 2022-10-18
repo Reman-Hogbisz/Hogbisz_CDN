@@ -103,10 +103,10 @@ pub fn pacman_spinner(props: &PacmanSpinnerProps) -> Html {
                 </style>
                 <div style="position: relative; font-size: 0; text-align: center;">
                     <div class="v-pacman v-pacman1" style={spinner_style_1}>
-                    </div><div class="v-pacman v-pacman2" style={vec![spinner_style.clone(),animation_style.clone(),spinner_delay_2.clone()].join("")}>
-                    </div><div class="v-pacman v-pacman3" style={vec![spinner_style.clone(),animation_style.clone(),spinner_delay_3.clone()].join("")}>
-                    </div><div class="v-pacman v-pacman4" style={vec![spinner_style.clone(),animation_style.clone(),spinner_delay_4.clone()].join("")}>
-                    </div><div class="v-pacman v-pacman5" style={vec![spinner_style.clone(),animation_style.clone(),spinner_delay_5.clone()].join("")}>
+                    </div><div class="v-pacman v-pacman2" style={vec![spinner_style.as_str(),animation_style.as_str(),spinner_delay_2.as_str()].join("")}>
+                    </div><div class="v-pacman v-pacman3" style={vec![spinner_style.as_str(),animation_style.as_str(),spinner_delay_3.as_str()].join("")}>
+                    </div><div class="v-pacman v-pacman4" style={vec![spinner_style.as_str(),animation_style.as_str(),spinner_delay_4.as_str()].join("")}>
+                    </div><div class="v-pacman v-pacman5" style={vec![spinner_style.as_str(),animation_style.as_str(),spinner_delay_5.as_str()].join("")}>
                     </div>
                 </div>
             } else {
