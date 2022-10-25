@@ -9,7 +9,7 @@ jobs:
   build-backend:
     name: Build Backend Docker Image
     needs: []
-    runs-on: powerful
+    runs-on: ubuntu-latest
 
     permissions:
       packages: write # needed for ghcr.io
@@ -55,7 +55,7 @@ jobs:
   build-frontend:
     name: Build Frontend Docker Image
     needs: []
-    runs-on: powerful
+    runs-on: ubuntu-latest
 
     permissions:
       packages: write # needed for ghcr.io
