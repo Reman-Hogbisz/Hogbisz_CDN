@@ -65,6 +65,7 @@ WORKDIR /app
 # Copy our build
 COPY --from=backend-build /app/target/release/hogbisz_cdn /app/hogbisz_cdn
 ADD ./entrypoint.sh /app/entrypoint.sh
+RUN mkdir /app/save
 
 RUN chown -R "${USER}":"${USER}" /app
 
